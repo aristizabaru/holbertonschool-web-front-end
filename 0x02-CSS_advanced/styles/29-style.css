@@ -398,7 +398,8 @@ ul.row {
 }
 .card-testimonial .card-quote cite {
   display: block;
-  padding: 1rem 0 0;
+  padding-top: 1rem;
+  color: var(--color-primary);
 }
 .section-hero {
   background-size: 90rem auto;
