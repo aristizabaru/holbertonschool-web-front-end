@@ -260,7 +260,8 @@ a:active {
 }
 .container {
   width: 960px;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 .footer {
   padding: var(--footer-padding);
