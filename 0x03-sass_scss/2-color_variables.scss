@@ -1,0 +1,14 @@
+/* two variables use */
+$primary-color: #3d3d3d;
+$secundary-color: #6d6d6d;
+
+body {
+  color: $primary-color;
+  background-color: $secundary-color;
+}
+p {
+  color: $primary-color;
+}
+h2 {
+  background-color: $secundary-color;
+}
