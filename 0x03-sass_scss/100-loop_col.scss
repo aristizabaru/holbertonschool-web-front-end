@@ -1,0 +1,6 @@
+/* operators */
+@for $i from 1 to 5 {
+  .col-#{$i} {
+    width: 100% / $i;
+  }
+}
