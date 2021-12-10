@@ -1,0 +1,50 @@
+/* function taken from https://css-tricks.com/snippets/sass/sorting-function/ */
+@import "103-sort_list";
+
+$order-default: "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p"
+  "q" "r" "s" "t" "u" "v" "w" "x" "y" "z" !default;
+
+@function _str-compare($str-a, $str-b, $order-default) {
+  $str-a: to-lower-case($str-a + unquote(""));
+  $str-b: to-lower-case($str-b + unquote(""));
+
+  @for $i from 1 through min(str-length($str-a), str-length($str-b)) {
+    $char-a: str-slice($str-a, $i, $i);
+    $char-b: str-slice($str-b, $i, $i);
+    @if $char-a and
+      $char-b and
+      index($order-default, $char-a) !=
+      index($order-default, $char-b)
+    {
+      @return index($order-default, $char-a) < index($order-default, $char-b);
+    }
+  }
+  @return str-length($str-a) < str-length($str-b);
+}
+
+@function quick-sort($list, $order: $order-default) {
+  $less: ();
+  $equal: ();
+  $large: ();
+
+  @if length($list) > 1 {
+    $seed: nth($list, ceil(length($list) / 2));
+
+    @each $item in $list {
+      @if $item == $seed {
+        $equal: append($equal, $item, list-separator($list));
+      } @else if _str-compare($item, $seed, $order) {
+        $less: append($less, $item, list-separator($list));
+      } @else if not _str-compare($item, $seed, $order) {
+        $large: append($large, $item, list-separator($list));
+      }
+    }
+    @return join(
+      join(quick-sort($less, $order), $equal),
+      quick-sort($large, $order)
+    );
+  }
+  @return $list;
+}
+
+@debug quick-sort($list-to-sort, $order-default);
