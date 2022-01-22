@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Task 7</title>
+  </head>
+
+  <body>
+    <!-- jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <!-- task 7 -->
+    <script type="application/javascript">
+      $(document).ready(function () {
+        function createSearchForm() {
+          $("<input type='text' />").appendTo("body");
+          $("<input type='submit' />")
+            .appendTo("body")
+            .click(function (e) {
+              e.preventDefault();
+              let search = $("input[type='text']").val();
+              queryWikipedia(search);
+            });
+          $("<ul></ul>").appendTo("body");
+        }
+        function addNewArticle(id, title, snippet) {
+          $("<li></li>")
+            .appendTo("ul")
+            .append(
+              `<p><span>${id} - <b>${title}</b></span></p>`,
+              `<p>${snippet}</p>`
+            );
+        }
+        function queryWikipedia(search) {
+          let url = "https://en.wikipedia.org/w/api.php";
+          const params = {
+            origin: "*",
+            action: "query",
+            list: "search",
+            utf8: "",
+            format: "json",
+            srsearch: `${search}`,
+          };
+          // compose url
+          url += "?";
+          Object.keys(params).forEach(function (key) {
+            url += "&" + key + "=" + params[key];
+          });
+
+          $.get(
+            url,
+            function (data) {
+              const results = data.query.search;
+              Object.keys(results).forEach(function (key) {
+                const id = results[key].pageid;
+                const title = results[key].title;
+                const snippet = results[key].snippet;
+
+                addNewArticle(id, title, snippet);
+              });
+            },
+            "json"
+          );
+        }
+        function main() {
+          createSearchForm();
+        }
+        main();
+      });
+    </script>
+  </body>
+</html>

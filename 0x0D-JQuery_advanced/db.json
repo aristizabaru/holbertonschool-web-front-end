@@ -1,0 +1,64 @@
+{
+  "posts": [
+    {
+      "title": "json-server",
+      "author": "typicode",
+      "id": 1
+    },
+    {
+      "title": "REST is Dying. Get Rid of It.",
+      "author": "thereallukeevans",
+      "id": 2
+    },
+    {
+      "title": "Why Did I Choose Data Science?",
+      "author": "mariajulianall",
+      "id": 3
+    },
+    {
+      "title": "What are Recursive Functions?",
+      "author": "aristizabaru",
+      "id": 4
+    },
+    {
+      "title": "What’s new in V8 8.6? Better WebAssembly!",
+      "author": "cataaristizabalphoto",
+      "id": 5
+    },
+    {
+      "title": "5 Tips For Learning SQL in 2022",
+      "author": "christianbedoya",
+      "id": 6
+    },
+    {
+      "title": "The ultimate terminal",
+      "author": "oscarmartinez_mnstr",
+      "id": 7
+    },
+    {
+      "title": "Arrow Functions",
+      "author": "lunagolo",
+      "id": 8
+    },
+    {
+      "title": "How I Used Data Science to Create Five Consistent Streams of Income",
+      "author": "tatonadas",
+      "id": 9
+    },
+    {
+      "title": "JSON Schema: Integrity Checking for NoSQL Data",
+      "author": "eliblackriver",
+      "id": 10
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "This is awsome",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

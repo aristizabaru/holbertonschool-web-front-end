@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Task 10</title>
+  </head>
+  <body>
+    <!-- jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <!-- task 10 -->
+    <script type="application/javascript">
+      $(document).ready(function () {
+        function addPostRow({ id, title, author }) {
+          $("<p></p>")
+            .appendTo("body")
+            .html(
+              `<span>Post created with id ${id}` +
+                `, title: ${title}` +
+                `, author: ${author}</span>`
+            );
+        }
+        function listPosts() {
+          const host = "http://localhost:3000";
+          const path = "posts";
+          const dataType = "json";
+
+          $.get(
+            `${host}/${path}`,
+            function (data) {
+              Object.keys(data).forEach((key) => {
+                addPostRow(data[key]);
+              });
+            },
+            dataType
+          ).fail(function () {
+            alert("Server Error");
+          });
+        }
+        function main() {
+          listPosts();
+        }
+        main();
+      });
+    </script>
+  </body>
+</html>

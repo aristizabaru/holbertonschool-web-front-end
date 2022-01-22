@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Task 12</title>
+  </head>
+  <body>
+    <!-- jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <!-- task 12 -->
+    <script type="application/javascript">
+      $(document).ready(function () {
+        function addPostRow({ id, title, author }) {
+          $(`<p id='row-${id}'></p>`)
+            .insertAfter("form")
+            .html(
+              `<span>(delete)<span><span>Post created with id ${id}` +
+                `, title: ${title}` +
+                `, author: ${author}</span>`
+            )
+            .click(function (e) {
+              deletePost(e.currentTarget.id.slice(4));
+              e.preventDefault();
+            });
+        }
+        function deletePost(id) {
+          const host = "http://localhost:3000";
+          const path = "posts";
+          const postToDelete = `${id}`;
+          const dataType = "json";
+
+          $.ajax(`${host}/${path}/${postToDelete}`, {
+            method: "DELETE",
+            dataType: "json",
+            error: function () {
+              alert("Post was not deleted");
+            },
+            success: function () {
+              $(`#row-${id}`).remove();
+            },
+          });
+        }
+        function listPosts() {
+          const host = "http://localhost:3000";
+          const path = "posts";
+          const dataType = "json";
+
+          $.get(
+            `${host}/${path}`,
+            function (data) {
+              Object.keys(data).forEach((key) => {
+                addPostRow(data[key]);
+              });
+            },
+            dataType
+          ).fail(function () {
+            alert("Server Error");
+          });
+        }
+        function buildForm() {
+          const $formStructure = `
+                <form>
+                  <div>
+                    <label for="author">Author</label>
+                    <input type="tel" id="author" />
+                  </div>
+                  <div>
+                    <label for="title">Title</label>
+                    <textarea id="title"></textarea>
+                  </div>
+                </form>
+                `;
+          $($formStructure).appendTo("body");
+          $("<input type='submit'>")
+            .appendTo("form")
+            .click(function (e) {
+              e.preventDefault();
+              sendForm();
+            });
+        }
+        function sendForm() {
+          const host = "http://localhost:3000";
+          const path = "posts";
+          const dataType = "json";
+          const dataPost = {
+            title: `${$("#title").val()}`,
+            author: `${$("#author").val()}`,
+          };
+
+          $("form").after("<p>About to send the query to the API</p>");
+
+          $.post(`${host}/${path}`, dataPost, dataType).fail(function () {
+            alert("Error sending the POST query");
+          });
+        }
+        function main() {
+          buildForm();
+          listPosts();
+        }
+        main();
+      });
+    </script>
+  </body>
+</html>
