@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2. Read cookie</title>
+  </head>
+  <body>
+    <h2>Login to the website</h2>
+    <input type="text" id="firstname" placeholder="Firstname" />
+    <input type="text" id="email" placeholder="Email" />
+    <button onclick="setCookies()">Log me in</button>
+    <h2>Cookies</h2>
+    <button onclick="showCookies()">Show the cookies</button>
+    <script>
+      function setCookies() {
+        const inputs = [document.getElementById("firstname"), document.getElementById("email")];
+        const daysToExpire = 10;
+        const date = new Date();
+        date.setTime(date.getTime() + daysToExpire * 24 * 60 * 60 * 1000);
+        inputs.forEach((element) => {
+          document.cookie = `${element.id}=${element.value}; expires=${date.toUTCString()} SameSite=lax; Secure`;
+        });
+      }
+      function showCookies() {
+        if (document.getElementById("cookie")) document.getElementById("cookie").remove();
+        const paragraph = document.createElement("p");
+        paragraph.id = "cookie";
+        paragraph.innerHTML = `
+        <strong>Cookies:</strong> Email: ${getCookie("email")} - Firstname: ${getCookie("firstname")}`;
+        document.body.append(paragraph);
+      }
+      function getCookie(name) {
+        let cookieValue = document.cookie.split("; ").find((row) => row.startsWith(`${name}=`));
+        cookieValue ? (cookieValue = cookieValue.split("=")[1]) : (cookieValue = "");
+        return cookieValue;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7-index.html</title>
+  </head>
+  <style>
+    a {
+      cursor: pointer;
+    }
+    a:hover {
+      opacity: 0.7;
+    }
+  </style>
+  <body>
+    <script>
+      // GLOBAL VARIABLES
+      const availableItems = ["Shampoo", "Soap", "Sponge", "Water"];
+
+      // FUNCTIONS
+      function getCartFromStorage() {
+        if (!sessionStorage.getItem("cart")) return {};
+        return JSON.parse(sessionStorage.getItem("cart"));
+      }
+      function addItemToCart(item) {
+        const cart = getCartFromStorage();
+        cart[item] ? cart[item]++ : (cart[item] = 1);
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+        displayCart();
+      }
+      function removeItemfromCart(item) {
+        const cart = getCartFromStorage();
+        if (cart[item]) delete cart[item];
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+        displayCart();
+      }
+      function clearCart() {
+        sessionStorage.clear();
+        displayCart();
+      }
+      function createStore() {
+        const $title = document.createElement("h2");
+        const $ulList = document.createElement("ul");
+        let $liList = "";
+
+        $title.textContent = "Available products:";
+        availableItems.forEach((element) => {
+          $liList += `<li><a role="button" tabindex="0" onclick="addItemToCart('${element}')">${element}</a></li>`;
+        });
+        $ulList.innerHTML = $liList;
+        document.body.append($title, $ulList);
+      }
+      function displayCart() {
+        const $title = document.createElement("h2");
+        const $div = document.createElement("div");
+
+        $title.textContent = "Your cart:";
+        if (document.getElementsByTagName("div")[0]) document.getElementsByTagName("div")[0].remove();
+        if (!document.getElementsByTagName("h2")[1]) document.body.append($title);
+        document.body.append($div);
+        updateCart();
+      }
+      function updateCart() {
+        const $ulList = document.createElement("ul");
+        const cart = getCartFromStorage();
+
+        if (Object.keys(cart).length !== 0) {
+          $ulList.innerHTML = `<li><a role="button" tabindex="0" onclick="clearCart()">Clear my cart</a></li>`;
+          Object.keys(cart).forEach((key) => {
+            $ulList.innerHTML += `<li>${key} x ${cart[key]} <a role="button" tabindex="0" onclick="removeItemfromCart('${key}')">(remove)</a></li>`;
+          });
+        } else {
+          $ulList.innerHTML = "<li>Your cart is empty</li>";
+        }
+        document.getElementsByTagName("div")[0].append($ulList);
+      }
+      function main() {
+        if (!window.sessionStorage)
+          alert("Sorry, your browser does not support Web storage. Try again with a better one");
+        createStore();
+        displayCart();
+      }
+      window.onload = main;
+    </script>
+  </body>
+</html>
