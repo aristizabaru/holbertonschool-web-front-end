@@ -7,7 +7,6 @@ This is an educational project exploring concepts about **HTML** towards a forma
 ## Table of contents
 
 - [Requirements](#requirements)
-  - [Dependencies](#dependencies)
 - [Topics](#topics)
 - [Read or watch](#read-or-watch)
 - [Files](#files)
